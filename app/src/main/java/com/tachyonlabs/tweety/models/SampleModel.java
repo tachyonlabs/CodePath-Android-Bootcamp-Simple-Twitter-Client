@@ -1,4 +1,4 @@
-package com.tachyonlabs.simpletwitterclient.models;
+package com.tachyonlabs.tweety.models;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
