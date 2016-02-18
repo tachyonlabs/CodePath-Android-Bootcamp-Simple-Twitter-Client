@@ -11,22 +11,41 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="#417ffb"
-        android:layout_marginRight="5dp" />
+        android:layout_marginRight="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:layout_marginTop="-5dp"
+        android:text="UserName"
         android:id="@+id/tvUserName"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/ivProfileImage"
-        android:layout_toEndOf="@+id/ivProfileImage" />
+        android:textStyle="bold"
+        android:layout_toRightOf="@+id/ivProfileImage" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-5dp"
+        android:text="ScreenName"
+        android:id="@+id/tvScreenName"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/tvUserName" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-5dp"
+        android:text="Time"
+        android:id="@+id/tvRelativeTIme"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/tvBody"
-        android:layout_alignBottom="@+id/ivProfileImage"
+        android:layout_below="@id/tvUserName"
         android:layout_toRightOf="@+id/ivProfileImage" />
 </RelativeLayout>

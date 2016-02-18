@@ -12,7 +12,10 @@ import com.squareup.picasso.Picasso;
 import com.tachyonlabs.tweety.R;
 import com.tachyonlabs.tweety.models.Tweet;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 // based on http://guides.codepath.com/android/Using-the-RecyclerView
 
@@ -44,12 +47,16 @@ public class TweetsAdapter extends
         // for any view that will be set as you render a row
         public ImageView ivProfileImage;
         public TextView tvUserName;
+        public TextView tvScreenName;
+        public TextView tvRelativeTime;
         public TextView tvBody;
         private Context context;
 
         public ViewHolder(final View itemView) {
             super(itemView);
             this.tvUserName = (TextView) itemView.findViewById(R.id.tvUserName);
+            this.tvScreenName = (TextView) itemView.findViewById(R.id.tvScreenName);
+            this.tvRelativeTime = (TextView) itemView.findViewById(R.id.tvRelativeTIme);
             this.tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             this.ivProfileImage = (ImageView) itemView.findViewById(R.id.ivProfileImage);
             // Setup the click listener
@@ -94,7 +101,11 @@ public class TweetsAdapter extends
 
         // Set item views based on the data model
         TextView tvUserName = viewHolder.tvUserName;
-        tvUserName.setText(tweet.getUser().getScreenName());
+        tvUserName.setText(tweet.getUser().getName() + " ");
+        TextView tvScreenName = viewHolder.tvScreenName;
+        tvScreenName.setText("@" + tweet.getUser().getScreenName());
+        TextView tvRelativeTime = viewHolder.tvRelativeTime;
+        tvRelativeTime.setText(relativeDate(tweet.getCreatedAt()));
         TextView tvBody = viewHolder.tvBody;
         tvBody.setText(tweet.getBody());
 
@@ -102,6 +113,37 @@ public class TweetsAdapter extends
         // remotely download, or use the placeholder if there is no thumbnail
         ImageView ivProfileImage = viewHolder.ivProfileImage;
         Picasso.with(viewHolder.ivProfileImage.getContext()).load(tweet.getUser().getProfileImageUrl()).fit().centerCrop().into(ivProfileImage);
+    }
+
+    private String relativeDate(String createdAt) {
+        // get an Instagram-style string of how long ago the photo was uploaded
+        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+        sf.setLenient(true);
+//        long dateMillis = sf.parse(createdAt).getTime();
+        String dateString;
+        long msDate = 0;
+        try {
+            msDate = sf.parse(createdAt).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //long msDate = Long.parseLong(createdAt);
+        //msDate *= 1000;
+        long relativeDate = System.currentTimeMillis() - msDate;
+        if (relativeDate > 604800000L) {
+            dateString = (relativeDate / 604800000L) + "w";
+        } else if (relativeDate > 86400000L) {
+            dateString = (relativeDate / 86400000L) + "d";
+        } else if (relativeDate > 3600000L) {
+            dateString = (relativeDate / 3600000L) + "h";
+        } else if (relativeDate > 60000) {
+            dateString = (relativeDate / 60000) + "m";
+        } else {
+            dateString = (relativeDate / 1000) + "s";
+        }
+
+        return dateString;
     }
 
     // Return the total count of items
