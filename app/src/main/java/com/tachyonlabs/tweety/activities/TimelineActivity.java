@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.tachyonlabs.tweety.R;
@@ -39,7 +40,16 @@ public class TimelineActivity extends AppCompatActivity {
         adapter = new TweetsAdapter(tweets);
         rvTweets.setAdapter(adapter);
         // Set layout manager to position the items
-        rvTweets.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rvTweets.setLayoutManager(linearLayoutManager);
+        rvTweets.addOnScrollListener(new com.tachyonlabs.tweety.utils.EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                populateTimeline();
+            }
+        });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         client = TwitterApplication.getRestClient(); // singleton client
@@ -58,7 +68,13 @@ public class TimelineActivity extends AppCompatActivity {
     // send an API request to get the timeline JSON
     // fill the listview by creating the tweet objects from the JSON
     private void populateTimeline() {
-        client.getHomeTimeline(new JsonHttpResponseHandler() {
+        final int previousTweetsLength = tweets.size();
+        long max_id = 0;
+        if (previousTweetsLength > 0) {
+            Toast.makeText(TimelineActivity.this, tweets.get(previousTweetsLength - 1).getUid() + "", Toast.LENGTH_LONG).show();
+            max_id = tweets.get(previousTweetsLength - 1).getUid() + 1;
+        }
+        client.getHomeTimeline(max_id, new JsonHttpResponseHandler() {
             // Success
 
             @Override
@@ -67,7 +83,6 @@ public class TimelineActivity extends AppCompatActivity {
                 // create models
                 // load the model data into the ListView
                 Log.d("DEBUG", json.toString());
-                int previousTweetsLength = tweets.size();
                 tweets.addAll(Tweet.fromJsonArray(json));
                 adapter.notifyItemRangeInserted(previousTweetsLength, json.length());
             }
