@@ -102,6 +102,24 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     public void onTweetButtonClicked(String myTweetText) {
-        Toast.makeText(this, myTweetText, Toast.LENGTH_LONG).show();
+        client.postTweet(myTweetText, new JsonHttpResponseHandler() {
+            // Success
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
+                // deserialize JSON
+                // create models
+                // load the model data into the ListView
+                Log.d("DEBUG", json.toString());
+//                tweets.addAll(Tweet.fromJsonArray(json));
+//                adapter.notifyItemRangeInserted(previousTweetsLength, json.length());
+            }
+
+            // Failure
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("DEBUG", errorResponse.toString());
+            }
+        });
     }
 }

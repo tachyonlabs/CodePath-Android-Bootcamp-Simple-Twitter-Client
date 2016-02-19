@@ -16,12 +16,6 @@ public class ComposeFragment extends android.support.v4.app.DialogFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private EditText etComposeTweet;
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public ComposeFragment() {
         // Required empty public constructor
@@ -52,9 +46,7 @@ public class ComposeFragment extends android.support.v4.app.DialogFragment {
         getDialog().setTitle(title);
 
         // Show soft keyboard automatically and request focus to field
-
         etComposeTweet.requestFocus();
-
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
