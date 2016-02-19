@@ -106,13 +106,18 @@ public class TimelineActivity extends AppCompatActivity {
             // Success
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 // deserialize JSON
                 // create models
                 // load the model data into the ListView
                 Log.d("DEBUG", json.toString());
-//                tweets.addAll(Tweet.fromJsonArray(json));
-//                adapter.notifyItemRangeInserted(previousTweetsLength, json.length());
+                //Toast.makeText(TimelineActivity.this, json.toString(), Toast.LENGTH_LONG).show();
+                Tweet myNewTweet = Tweet.fromJSON(json);
+                tweets.add(0, myNewTweet);
+                adapter.notifyItemInserted(0);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(TimelineActivity.this);
+                linearLayoutManager = (LinearLayoutManager) rvTweets.getLayoutManager();
+                linearLayoutManager.scrollToPositionWithOffset(0, 0);
             }
 
             // Failure
