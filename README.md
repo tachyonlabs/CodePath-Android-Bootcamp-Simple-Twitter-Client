@@ -15,7 +15,7 @@ The following **required** functionality is completed:
   * [x] User can view more tweets as they scroll with [infinite pagination](http://guides.codepath.com/android/Endless-Scrolling-with-AdapterViews-and-RecyclerView). Number of tweets is unlimited.
     However there are [Twitter Api Rate Limits](https://dev.twitter.com/rest/public/rate-limiting) in place.
 * [ ] User can **compose and post a new tweet**
-  * [ ] User can click a “Compose” icon in the Action Bar on the top right
+  * [x] User can click a “Compose” icon in the Action Bar on the top right
   * [ ] User can then enter a new tweet and post this to twitter
   * [ ] User is taken back to home timeline with **new tweet visible** in timeline
 
@@ -33,7 +33,7 @@ The following **bonus** features are implemented:
 
 * [ ] User can see embedded image media within the tweet detail view
 * [ ] User can watch embedded video within the tweet
-* [ ] Compose tweet functionality is build using modal overlay
+* [x] Compose tweet functionality is build using modal overlay
 * [ ] Use Parcelable instead of Serializable using the popular [Parceler library](http://guides.codepath.com/android/Using-Parceler).
 * [ ] Apply the popular [Butterknife annotation library](http://guides.codepath.com/android/Reducing-View-Boilerplate-with-Butterknife) to reduce view boilerplate.
 * [ ] Leverage the popular [GSON library](http://guides.codepath.com/android/Using-Android-Async-Http-Client#decoding-with-gson-library) to streamline the parsing of JSON data.

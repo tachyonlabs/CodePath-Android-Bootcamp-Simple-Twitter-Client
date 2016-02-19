@@ -2,7 +2,7 @@ package com.tachyonlabs.tweety.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.tachyonlabs.tweety.R;
 import com.tachyonlabs.tweety.adapters.TweetsAdapter;
+import com.tachyonlabs.tweety.fragments.ComposeFragment;
 import com.tachyonlabs.tweety.models.Tweet;
 import com.tachyonlabs.tweety.utils.TwitterApplication;
 import com.tachyonlabs.tweety.utils.TwitterClient;
@@ -59,10 +60,15 @@ public class TimelineActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                showComposeDialog();
             }
         });
+    }
+
+    private void showComposeDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        ComposeFragment composeFragment = ComposeFragment.newInstance("What's happening?");
+        composeFragment.show(fm, "fragment_compose");
     }
 
     // send an API request to get the timeline JSON
@@ -93,5 +99,9 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.d("DEBUG", errorResponse.toString());
             }
         });
+    }
+
+    public void onTweetButtonClicked(String myTweetText) {
+        Toast.makeText(this, myTweetText, Toast.LENGTH_LONG).show();
     }
 }
