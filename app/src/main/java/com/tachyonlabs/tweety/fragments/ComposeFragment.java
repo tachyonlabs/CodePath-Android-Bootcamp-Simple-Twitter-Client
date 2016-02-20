@@ -1,13 +1,17 @@
 package com.tachyonlabs.tweety.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.tachyonlabs.tweety.R;
 import com.tachyonlabs.tweety.activities.TimelineActivity;
@@ -59,6 +63,30 @@ public class ComposeFragment extends android.support.v4.app.DialogFragment {
                 TimelineActivity timelineActivity = (TimelineActivity) getActivity();
                 timelineActivity.onTweetButtonClicked(myTweet);
                 getDialog().dismiss();
+            }
+        });
+
+        final TextView tvCharsRemaining = (TextView) view.findViewById(R.id.tvCharsRemaining);
+        EditText etComposeTweet = (EditText) view.findViewById(R.id.etComposeTweet);
+        etComposeTweet.addTextChangedListener(new TextWatcher() {
+            int charsRemaining;
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Fires right as the text is being changed (even supplies the range of text)
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                // Fires right before text is changing
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Fires right after the text has changed
+                charsRemaining = 140 - s.length();
+                tvCharsRemaining.setText(String.valueOf(charsRemaining));
+                tvCharsRemaining.setTextColor(charsRemaining < 0? Color.RED : R.color.twitter_blue);
             }
         });
     }

@@ -11,7 +11,10 @@
         android:inputType="textMultiLine|textCapSentences"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_above="@+id/btnTweet" />
+        android:layout_above="@+id/btnTweet"
+        android:gravity="top"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -20,5 +23,17 @@
         android:id="@+id/btnTweet"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="140"
+        android:id="@+id/tvCharsRemaining"
+        android:textColor="@color/darker_twitter_blue"
+        android:layout_alignBottom="@+id/btnTweet"
+        android:layout_toLeftOf="@+id/btnTweet"
+        android:layout_alignTop="@+id/btnTweet"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical" />
 
 </RelativeLayout>
