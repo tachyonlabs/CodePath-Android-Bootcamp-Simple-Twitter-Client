@@ -50,6 +50,7 @@
         android:id="@+id/tvBody"
         android:autoLink="all"
         android:linksClickable="true"
+        android:textColorLink="#4184B7"
         android:layout_below="@id/tvUserName"
         android:layout_toRightOf="@+id/ivProfileImage" />
 </RelativeLayout>

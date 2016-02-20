@@ -6,6 +6,7 @@
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         -->
+        <item name="android:textColorPrimaryInverse">@color/primary_text_material_dark</item>
     </style>
 
     <!-- Application theme. -->
@@ -16,6 +17,11 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="MyTextAppearance" parent="Base.TextAppearance.AppCompat.Title">
+        <item name="android:textColor">#FFFF00</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
