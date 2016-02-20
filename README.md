@@ -61,6 +61,7 @@ Tweety image in icon from http://looneytunes.wikia.com/wiki/Tweety
 
 - [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
 - [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
+- [RoundedImageView](https://github.com/vinc3m1/RoundedImageView) - Fast ImageView (and Drawable) that supports rounded corners (and ovals or circles)
 
 ## License
 

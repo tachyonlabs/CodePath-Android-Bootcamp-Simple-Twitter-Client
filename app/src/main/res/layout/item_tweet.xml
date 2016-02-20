@@ -12,7 +12,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#417ffb"
         android:layout_marginRight="10dp" />
 
     <TextView
