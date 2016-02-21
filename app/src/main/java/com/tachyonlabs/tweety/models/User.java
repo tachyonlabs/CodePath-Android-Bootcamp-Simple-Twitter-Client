@@ -3,7 +3,9 @@ package com.tachyonlabs.tweety.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     // attributes
     private String name;
     private long uid;

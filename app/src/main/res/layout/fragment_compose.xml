@@ -15,22 +15,24 @@
 
     <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/ivProfileImage"
+        android:id="@+id/ivMyProfileImage"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:scaleType="fitCenter"
         android:layout_margin="10dp"
-        app:riv_corner_radius="4dip"
+        app:riv_corner_radius="2dip"
         app:riv_oval="false" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/etComposeTweet"
+        android:hint="@string/whats_happening"
+        android:textColorHint="#C0C0C0"
         android:inputType="textMultiLine|textCapSentences"
-        android:layout_below="@+id/ivProfileImage"
+        android:layout_below="@+id/ivMyProfileImage"
         android:layout_alignParentLeft="true"
         android:layout_above="@+id/btnTweet"
         android:gravity="top"

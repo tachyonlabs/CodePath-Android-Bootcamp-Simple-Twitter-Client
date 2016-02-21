@@ -17,6 +17,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.tachyonlabs.tweety.R;
 import com.tachyonlabs.tweety.adapters.TweetsAdapter;
 import com.tachyonlabs.tweety.fragments.ComposeFragment;
+import com.tachyonlabs.tweety.fragments.TweetDetailFragment;
 import com.tachyonlabs.tweety.models.Tweet;
 import com.tachyonlabs.tweety.models.User;
 import com.tachyonlabs.tweety.utils.TwitterApplication;
@@ -35,7 +36,7 @@ public class TimelineActivity extends AppCompatActivity {
     TweetsAdapter adapter;
     private TwitterClient client;
     private SwipeRefreshLayout swipeContainer;
-    User me;
+    User myUserAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,21 +73,15 @@ public class TimelineActivity extends AppCompatActivity {
                 populateTimeline();
             }
         });
-        // hook up listener for grid click
+
+        // hook up listener for tweet tap to view tweet detail
         adapter.setOnItemClickListener(new TweetsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(TimelineActivity.this, position + "", Toast.LENGTH_SHORT).show();
-//                // create an intent to display the article
-//                Intent intent = new Intent(getApplicationContext(), ArticleActivity.class);
-//                // get the article to display
-//                Article article = articles.get(position);
-//                // pass the article in to the intent
-//                intent.putExtra("article", article);
-//                // launch the activity
-//                startActivity(intent);
+                showTweetDetailDialog(position);
             }
         });
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -96,7 +91,7 @@ public class TimelineActivity extends AppCompatActivity {
         //toolbar.setTitleTextAppearance(this, R.style.MyTextAppearance);
         client = TwitterApplication.getRestClient(); // singleton client
         populateTimeline();
-        getUserInfo();
+        getMyUserJson();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -132,11 +127,11 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
-    public void getUserInfo() {
+    public void getMyUserJson() {
         client.getMyUserInfo(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
-                setUserInfo(json);
+                getMyUserInfo(json);
             }
 
             @Override
@@ -146,17 +141,27 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
-    public void setUserInfo(JSONObject json) {
-        me = User.fromJSON(json);
+    public void getMyUserInfo(JSONObject json) {
+        myUserAccount = User.fromJSON(json);
     }
 
+    // bring up the dialogfragment for composing a new tweet
     private void showComposeDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        String profileImageUrl = me.getProfileImageUrl();
-        Log.d("PROFILE", profileImageUrl);
+        String myProfileImageUrl = myUserAccount.getProfileImageUrl();
+        Log.d("PROFILE", myProfileImageUrl);
 
-        ComposeFragment composeFragment = ComposeFragment.newInstance("What's happening?", profileImageUrl);
+        ComposeFragment composeFragment = ComposeFragment.newInstance(myProfileImageUrl);
         composeFragment.show(fm, "fragment_compose");
+    }
+
+    private void showTweetDetailDialog(int position) {
+        FragmentManager fm = getSupportFragmentManager();
+        String myProfileImageUrl = myUserAccount.getProfileImageUrl();
+        Log.d("PROFILE", myProfileImageUrl);
+
+        TweetDetailFragment tweetDetailFragment = TweetDetailFragment.newInstance(myProfileImageUrl, tweets.get(position));
+        tweetDetailFragment.show(fm, "fragment_tweet_detail");
     }
 
     // send an API request to get the timeline JSON
@@ -166,7 +171,6 @@ public class TimelineActivity extends AppCompatActivity {
         long max_id = 0;
         long since_id = 1;
         if (previousTweetsLength > 0) {
-            Toast.makeText(TimelineActivity.this, tweets.get(previousTweetsLength - 1).getUid() + "", Toast.LENGTH_LONG).show();
             max_id = tweets.get(previousTweetsLength - 1).getUid() + 1;
         }
         client.getHomeTimeline(since_id, max_id, new JsonHttpResponseHandler() {

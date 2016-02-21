@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,28 +20,19 @@ import com.tachyonlabs.tweety.R;
 import com.tachyonlabs.tweety.activities.TimelineActivity;
 
 public class ComposeFragment extends android.support.v4.app.DialogFragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "title";
-    private static final String ARG_PARAM2 = "profileImageUrl";
-    // TODO: Rename and change types of parameters
-    private String title;
     private String profileImageUrl;
-
     private EditText etComposeTweet;
 
     public ComposeFragment() {
         // Required empty public constructor
     }
 
-    public static ComposeFragment newInstance(String title, String profileImageUrl) {
-        Log.d("DEBUG", profileImageUrl);
-        ComposeFragment frag = new ComposeFragment();
+    public static ComposeFragment newInstance(String profileImageUrl) {
+        ComposeFragment composeFragment = new ComposeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, title);
-        args.putString(ARG_PARAM2, profileImageUrl);
-        frag.setArguments(args);
-        return frag;
+        args.putString("profileImageUrl", profileImageUrl);
+        composeFragment.setArguments(args);
+        return composeFragment;
     }
 
     @Override
@@ -56,15 +46,13 @@ public class ComposeFragment extends android.support.v4.app.DialogFragment {
         Button btnTweet;
         ImageView ivClose;
         super.onViewCreated(view, savedInstanceState);
-        // Get field from view
+        // Get fields from view
         etComposeTweet = (EditText) view.findViewById(R.id.etComposeTweet);
-        // Fetch arguments from bundle and set title
-        title = getArguments().getString(ARG_PARAM1);
+        ImageView ivMyProfileImage = (ImageView) view.findViewById(R.id.ivMyProfileImage);
+        // Fetch arguments from bundle
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        profileImageUrl = getArguments().getString(ARG_PARAM2);
-        etComposeTweet.setHint(title);
-        ImageView ivProfileImage = (ImageView) view.findViewById(R.id.ivProfileImage);
-        Picasso.with(view.getContext()).load(profileImageUrl).fit().centerCrop().into(ivProfileImage);
+        profileImageUrl = getArguments().getString("profileImageUrl");
+        Picasso.with(view.getContext()).load(profileImageUrl).fit().centerCrop().into(ivMyProfileImage);
 
         // Show soft keyboard automatically and request focus to field
         etComposeTweet.requestFocus();
@@ -83,6 +71,7 @@ public class ComposeFragment extends android.support.v4.app.DialogFragment {
             }
         });
 
+        // the X in the top-left corner closes the fragment
         ivClose = (ImageView) view.findViewById(R.id.ivClose);
         ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,17 +87,20 @@ public class ComposeFragment extends android.support.v4.app.DialogFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Fires right as the text is being changed (even supplies the range of text)
+                // I'm not using this, but it's required to be implemented anyway
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
                                           int after) {
                 // Fires right before text is changing
+                // I'm not using this, but it's required to be implemented anyway
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 // Fires right after the text has changed
+                // update the charsRemaining TextView with how many of the 140 chars they have left
                 charsRemaining = 140 - s.length();
                 tvCharsRemaining.setText(String.valueOf(charsRemaining));
                 tvCharsRemaining.setTextColor(charsRemaining < 0? Color.RED : R.color.twitter_blue);

@@ -60,7 +60,7 @@ public class TweetsAdapter extends
             this.tvScreenName = (TextView) itemView.findViewById(R.id.tvScreenName);
             this.tvRelativeTime = (TextView) itemView.findViewById(R.id.tvRelativeTIme);
             this.tvBody = (TextView) itemView.findViewById(R.id.tvBody);
-            this.ivProfileImage = (ImageView) itemView.findViewById(R.id.ivProfileImage);
+            this.ivProfileImage = (ImageView) itemView.findViewById(R.id.ivMyProfileImage);
             // Setup the click listener
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
