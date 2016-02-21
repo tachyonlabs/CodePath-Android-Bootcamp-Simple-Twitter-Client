@@ -18,6 +18,7 @@ import com.tachyonlabs.tweety.R;
 import com.tachyonlabs.tweety.adapters.TweetsAdapter;
 import com.tachyonlabs.tweety.fragments.ComposeFragment;
 import com.tachyonlabs.tweety.models.Tweet;
+import com.tachyonlabs.tweety.models.User;
 import com.tachyonlabs.tweety.utils.TwitterApplication;
 import com.tachyonlabs.tweety.utils.TwitterClient;
 
@@ -34,6 +35,7 @@ public class TimelineActivity extends AppCompatActivity {
     TweetsAdapter adapter;
     private TwitterClient client;
     private SwipeRefreshLayout swipeContainer;
+    User me;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,6 @@ public class TimelineActivity extends AppCompatActivity {
         // Configure the refreshing colors
         // alternate colors between Twitter blue and Tweety yellow :-)
         swipeContainer.setColorSchemeColors(0xFF55acee, 0xFFFFFF00, 0xFF55acee, 0xFFFFFF00);
-
         rvTweets = (RecyclerView) findViewById(R.id.rvTweets);
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(tweets);
@@ -71,14 +72,31 @@ public class TimelineActivity extends AppCompatActivity {
                 populateTimeline();
             }
         });
+        // hook up listener for grid click
+        adapter.setOnItemClickListener(new TweetsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(TimelineActivity.this, position + "", Toast.LENGTH_SHORT).show();
+//                // create an intent to display the article
+//                Intent intent = new Intent(getApplicationContext(), ArticleActivity.class);
+//                // get the article to display
+//                Article article = articles.get(position);
+//                // pass the article in to the intent
+//                intent.putExtra("article", article);
+//                // launch the activity
+//                startActivity(intent);
+            }
+        });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.mipmap.logo);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         //toolbar.setTitleTextAppearance(this, R.style.MyTextAppearance);
         client = TwitterApplication.getRestClient(); // singleton client
         populateTimeline();
+        getUserInfo();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -114,9 +132,30 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
+    public void getUserInfo() {
+        client.getMyUserInfo(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
+                setUserInfo(json);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("DEBUG", errorResponse.toString());
+            }
+        });
+    }
+
+    public void setUserInfo(JSONObject json) {
+        me = User.fromJSON(json);
+    }
+
     private void showComposeDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        ComposeFragment composeFragment = ComposeFragment.newInstance("What's happening?");
+        String profileImageUrl = me.getProfileImageUrl();
+        Log.d("PROFILE", profileImageUrl);
+
+        ComposeFragment composeFragment = ComposeFragment.newInstance("What's happening?", profileImageUrl);
         composeFragment.show(fm, "fragment_compose");
     }
 

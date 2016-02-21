@@ -5,30 +5,42 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.tachyonlabs.tweety.R;
 import com.tachyonlabs.tweety.activities.TimelineActivity;
 
 public class ComposeFragment extends android.support.v4.app.DialogFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "title";
+    private static final String ARG_PARAM2 = "profileImageUrl";
+    // TODO: Rename and change types of parameters
+    private String title;
+    private String profileImageUrl;
+
     private EditText etComposeTweet;
 
     public ComposeFragment() {
         // Required empty public constructor
     }
 
-    public static ComposeFragment newInstance(String title) {
+    public static ComposeFragment newInstance(String title, String profileImageUrl) {
+        Log.d("DEBUG", profileImageUrl);
         ComposeFragment frag = new ComposeFragment();
         Bundle args = new Bundle();
-        args.putString("title", title);
+        args.putString(ARG_PARAM1, title);
+        args.putString(ARG_PARAM2, profileImageUrl);
         frag.setArguments(args);
         return frag;
     }
@@ -42,12 +54,17 @@ public class ComposeFragment extends android.support.v4.app.DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         Button btnTweet;
+        ImageView ivClose;
         super.onViewCreated(view, savedInstanceState);
         // Get field from view
         etComposeTweet = (EditText) view.findViewById(R.id.etComposeTweet);
         // Fetch arguments from bundle and set title
-        String title = getArguments().getString("title", "Enter Name");
-        getDialog().setTitle(title);
+        title = getArguments().getString(ARG_PARAM1);
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        profileImageUrl = getArguments().getString(ARG_PARAM2);
+        etComposeTweet.setHint(title);
+        ImageView ivProfileImage = (ImageView) view.findViewById(R.id.ivProfileImage);
+        Picasso.with(view.getContext()).load(profileImageUrl).fit().centerCrop().into(ivProfileImage);
 
         // Show soft keyboard automatically and request focus to field
         etComposeTweet.requestFocus();
@@ -62,6 +79,14 @@ public class ComposeFragment extends android.support.v4.app.DialogFragment {
                 String myTweet = etComposeTweet.getText().toString();
                 TimelineActivity timelineActivity = (TimelineActivity) getActivity();
                 timelineActivity.onTweetButtonClicked(myTweet);
+                getDialog().dismiss();
+            }
+        });
+
+        ivClose = (ImageView) view.findViewById(R.id.ivClose);
+        ivClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 getDialog().dismiss();
             }
         });

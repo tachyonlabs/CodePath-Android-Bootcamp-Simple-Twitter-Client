@@ -30,17 +30,17 @@ public class TweetsAdapter extends
      * Creating OnItemClickListener
      *****/
     // Define listener member variable
-//    private static OnItemClickListener listener;
-//
-//    // Define the listener interface
-//    public interface OnItemClickListener {
-//        void onItemClick(View itemView, int position);
-//    }
-//
-//    // Define the method that allows the parent activity or fragment to define the listener
-//    public void setOnItemClickListener(OnItemClickListener listener) {
-//        this.listener = listener;
-//    }
+    private static OnItemClickListener listener;
+
+    // Define the listener interface
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, int position);
+    }
+
+    // Define the method that allows the parent activity or fragment to define the listener
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
@@ -62,14 +62,14 @@ public class TweetsAdapter extends
             this.tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             this.ivProfileImage = (ImageView) itemView.findViewById(R.id.ivProfileImage);
             // Setup the click listener
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    // Triggers click upwards to the adapter on click
-//                    if (listener != null)
-//                        listener.onItemClick(itemView, getLayoutPosition());
-//                }
-//            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Triggers click upwards to the adapter on click
+                    if (listener != null)
+                        listener.onItemClick(itemView, getLayoutPosition());
+                }
+            });
         }
     }
 
