@@ -28,6 +28,7 @@ public class ComposeFragment extends android.support.v4.app.DialogFragment {
     }
 
     public static ComposeFragment newInstance(String profileImageUrl) {
+        // get the user profile image URL to display
         ComposeFragment composeFragment = new ComposeFragment();
         Bundle args = new Bundle();
         args.putString("profileImageUrl", profileImageUrl);
@@ -51,6 +52,7 @@ public class ComposeFragment extends android.support.v4.app.DialogFragment {
         etComposeTweet = (EditText) view.findViewById(R.id.etComposeTweet);
         ImageView ivMyProfileImage = (ImageView) view.findViewById(R.id.ivMyProfileImage);
         // Fetch arguments from bundle
+        // display the logged-in user's profile image
         profileImageUrl = getArguments().getString("profileImageUrl");
         Picasso.with(view.getContext()).load(profileImageUrl).fit().centerCrop().into(ivMyProfileImage);
 
@@ -59,6 +61,7 @@ public class ComposeFragment extends android.support.v4.app.DialogFragment {
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
+        // set up listener for posting a tweet
         btnTweet = (Button) view.findViewById(R.id.btnTweet);
         btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +74,7 @@ public class ComposeFragment extends android.support.v4.app.DialogFragment {
             }
         });
 
-        // the X in the top-left corner closes the fragment
+        // or you can tap the X in the top-left corner to close the fragment
         ivClose = (ImageView) view.findViewById(R.id.ivClose);
         ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +83,7 @@ public class ComposeFragment extends android.support.v4.app.DialogFragment {
             }
         });
 
+        // display a counter showing the number of characters left for the tweet
         final TextView tvCharsRemaining = (TextView) view.findViewById(R.id.tvCharsRemaining);
         EditText etComposeTweet = (EditText) view.findViewById(R.id.etComposeTweet);
         etComposeTweet.addTextChangedListener(new TextWatcher() {

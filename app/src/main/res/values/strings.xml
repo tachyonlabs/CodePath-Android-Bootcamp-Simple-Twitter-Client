@@ -6,9 +6,6 @@
     <string name="title_activity_timeline">\u00A0\u00A0\u00A0Tweety</string>
     <string name="login_label">Connect to Twitter</string>
     <string name="tweet">Tweet</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="whats_happening">What\'s happening?</string>
 
 </resources>

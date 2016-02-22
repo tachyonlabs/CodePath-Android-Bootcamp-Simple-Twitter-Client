@@ -116,7 +116,7 @@ public class TweetsAdapter extends
     }
 
     private String relativeDate(String createdAt) {
-        // get an Instagram-style string of how long ago the tweet was tweeted
+        // get a Twitter-app-style string of how long ago the tweet was tweeted
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
         SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
         sf.setLenient(true);
@@ -127,7 +127,8 @@ public class TweetsAdapter extends
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        // the Math.max is because I've been getting some values ala "-3s" from Twitter
+        // the Math.max is because occasionally I see a newest tweet from Twitter with a value like
+        // negative three seconds
         long relativeDate = Math.max(System.currentTimeMillis() - msDate, 0);
         if (relativeDate > 604800000L) {
             dateString = (relativeDate / 604800000L) + "w";

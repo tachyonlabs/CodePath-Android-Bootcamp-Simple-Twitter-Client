@@ -58,6 +58,7 @@ public class TimelineActivity extends AppCompatActivity {
         // Configure the refreshing colors
         // alternate colors between Twitter blue and Tweety yellow :-)
         swipeContainer.setColorSchemeColors(0xFF55acee, 0xFFFFFF00, 0xFF55acee, 0xFFFFFF00);
+        // get the RecyclerView, Adapter, and ArrayList
         rvTweets = (RecyclerView) findViewById(R.id.rvTweets);
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(tweets);
@@ -90,9 +91,13 @@ public class TimelineActivity extends AppCompatActivity {
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
         //toolbar.setTitleTextAppearance(this, R.style.MyTextAppearance);
         client = TwitterApplication.getRestClient(); // singleton client
+
+        // load the initial latest batch of tweets
         populateTimeline();
+        // get our own Twitter account info as well
         getMyUserJson();
 
+        // tapping the floating action button takes you to compose a tweet
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,16 +108,17 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     public void fetchTimelineAsync(int page) {
-        // Send the network request to fetch the updated data
+        // Send the network request to fetch the updated data on Swipe-to-refresh
         // `client` here is an instance of Android Async HTTP
         long since_id;
         long max_id = 0;
+        // get tweets newer than the current newest tweet
         Tweet newestDisplayedTweet = tweets.get(0);
         since_id = newestDisplayedTweet.getUid();
         client.getHomeTimeline(since_id, max_id, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
-                Log.d("DEBUG", json.toString());
+                // add them to the ArrayList, notify the adapter, scroll back to show the new tweets
                 tweets.addAll(0, Tweet.fromJsonArray(json));
                 adapter.notifyItemRangeInserted(0, json.length());
                 scrollToTop();
@@ -128,6 +134,7 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     public void getMyUserJson() {
+        // get the logged-in user's user account info
         client.getMyUserInfo(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
@@ -141,6 +148,7 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
+    // the last part of getting the logged-in user's user account info
     public void getMyUserInfo(JSONObject json) {
         myUserAccount = User.fromJSON(json);
     }
@@ -148,18 +156,17 @@ public class TimelineActivity extends AppCompatActivity {
     // bring up the dialogfragment for composing a new tweet
     private void showComposeDialog() {
         FragmentManager fm = getSupportFragmentManager();
+        // pass in the URL for the user's profile image
         String myProfileImageUrl = myUserAccount.getProfileImageUrl();
-        Log.d("PROFILE", myProfileImageUrl);
-
         ComposeFragment composeFragment = ComposeFragment.newInstance(myProfileImageUrl);
         composeFragment.show(fm, "fragment_compose");
     }
 
+    // bring up the dialogfragment for showing a detailed view of a tweet
     private void showTweetDetailDialog(int position) {
+        // pass in the user's profile image and the tweet
         FragmentManager fm = getSupportFragmentManager();
         String myProfileImageUrl = myUserAccount.getProfileImageUrl();
-        Log.d("PROFILE", myProfileImageUrl);
-
         TweetDetailFragment tweetDetailFragment = TweetDetailFragment.newInstance(myProfileImageUrl, tweets.get(position));
         tweetDetailFragment.show(fm, "fragment_tweet_detail");
     }
@@ -170,13 +177,14 @@ public class TimelineActivity extends AppCompatActivity {
         final int previousTweetsLength = tweets.size();
         long max_id = 0;
         long since_id = 1;
+        // if previousTweetsLength is 0 we're getting the initial batch
+        // otherwise we're loading more tweets for infinite scrolling
         if (previousTweetsLength > 0) {
             max_id = tweets.get(previousTweetsLength - 1).getUid() + 1;
         }
         client.getHomeTimeline(since_id, max_id, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
-                Log.d("DEBUG", json.toString());
                 tweets.addAll(Tweet.fromJsonArray(json));
                 adapter.notifyItemRangeInserted(previousTweetsLength, json.length());
             }
@@ -189,34 +197,33 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     public void scrollToTop() {
+        // when you post a tweet or swipe-to-refresh, scroll back to display the new tweet(s)
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(TimelineActivity.this);
         linearLayoutManager = (LinearLayoutManager) rvTweets.getLayoutManager();
         linearLayoutManager.scrollToPositionWithOffset(0, 0);
     }
 
     public void onTweetButtonClicked(String myTweetText) {
+        // when the user composes a new tweet and taps the Tweet button, post it
         client.postTweet(myTweetText, new JsonHttpResponseHandler() {
-            // Success
-
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
-                // deserialize JSON
-                // create models
-                // load the model data into the ListView
-                Log.d("DEBUG", json.toString());
-                Toast toast = Toast.makeText(TimelineActivity.this, "Tweet posted!", Toast.LENGTH_SHORT);
-                View view = toast.getView();
-                view.setBackgroundColor(0xC02196F3);
-                TextView textView = (TextView) view.findViewById(android.R.id.message);
-                textView.setTextColor(0xFFFFFF00);
-                toast.show();
+                // get the new tweet and add it to the ArrayList
                 Tweet myNewTweet = Tweet.fromJSON(json);
                 tweets.add(0, myNewTweet);
+                // notify the adapter
                 adapter.notifyItemInserted(0);
+                // scroll back to display the new tweet
                 scrollToTop();
+                // display a success Toast
+                Toast toast = Toast.makeText(TimelineActivity.this, "Tweet posted!", Toast.LENGTH_SHORT);
+                View view = toast.getView();
+                view.setBackgroundColor(0xC055ACEE);
+                TextView textView = (TextView) view.findViewById(android.R.id.message);
+                textView.setTextColor(0xFFFFFFFF);
+                toast.show();
             }
 
-            // Failure
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.d("DEBUG", errorResponse.toString());

@@ -22,13 +22,12 @@ public class TweetDetailFragment extends android.support.v4.app.DialogFragment {
     private String myProfileImageUrl;
     private Tweet tweet;
 
-    //private OnFragmentInteractionListener mListener;
-
     public TweetDetailFragment() {
         // Required empty public constructor
     }
 
     public static TweetDetailFragment newInstance(String myProfileImageUrl, Tweet tweet) {
+        // get the tweet to display and the logged-in user's profile image URL
         TweetDetailFragment fragment = new TweetDetailFragment();
         Bundle args = new Bundle();
         args.putString("myProfileImageUrl", myProfileImageUrl);
@@ -57,9 +56,11 @@ public class TweetDetailFragment extends android.support.v4.app.DialogFragment {
         TextView tvTweetBody = (TextView) view.findViewById(R.id.tvTweetBody);
         TextView tvTimeStamp = (TextView) view.findViewById(R.id.tvTimeStamp);
         // Fetch arguments from bundle
+        // display the logged-in user's profile image
         myProfileImageUrl = getArguments().getString("myProfileImageUrl");
         Picasso.with(view.getContext()).load(myProfileImageUrl).fit().centerCrop().into(ivMyProfileImage);
 
+        // and display the tweet
         tweet = (Tweet) getArguments().getSerializable("tweet");
         Picasso.with(view.getContext()).load(tweet.getUser().getProfileImageUrl()).fit().centerCrop().into(ivProfileImage);
         tvUserName.setText(tweet.getUser().getName());
@@ -77,6 +78,8 @@ public class TweetDetailFragment extends android.support.v4.app.DialogFragment {
         });
     }
 
+    // display the tweet's timestamp using the format that the Twitter app uses when you
+    // tap a tweet to bring up a detailed view
     public String useTweetDetailDateFormat(String rawJsonDate) {
         Date date;
         long dateMillis = 0;

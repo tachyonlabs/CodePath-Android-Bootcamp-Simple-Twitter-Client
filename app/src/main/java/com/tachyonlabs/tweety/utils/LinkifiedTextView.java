@@ -1,6 +1,8 @@
 package com.tachyonlabs.tweety.utils;
 
 // from http://michaelevans.org/blog/2013/03/29/clickable-links-in-android-listviews/
+// makes it so that TextViews in a RecyclerView can both have general taps detected and have
+// taps on links bring up the links in a browser
 
 import android.content.Context;
 import android.text.Layout;
