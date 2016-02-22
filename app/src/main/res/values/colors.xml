@@ -2,8 +2,9 @@
 <resources>
     <color name="accent_material_light">#55acee</color>
     <color name="primary_material_dark">#55acee</color>
-    <color name="primary_dark_material_dark">#4184b7</color>
+    <color name="primary_dark_material_dark">#1976d2</color>
     <color name="primary_text_material_dark">#ffff00</color>
     <color name="twitter_blue">#55acee</color>
     <color name="darker_twitter_blue">#4184b7</color>
+    <color name="colorPrimaryDark">#1976d2</color>
 </resources>

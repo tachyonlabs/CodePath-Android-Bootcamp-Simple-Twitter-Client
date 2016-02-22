@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context="com.tachyonlabs.tweety.fragments.TweetDetailFragment">
 
     <ImageView
@@ -25,12 +26,21 @@
         app:riv_corner_radius="2dip"
         app:riv_oval="false" />
 
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:minHeight="1px"
+        android:layout_below="@id/ivClose"
+        android:background="@color/twitter_blue"
+        />
+
     <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/ivProfileImage"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_below="@+id/ivClose"
+        android:layout_below="@+id/line1"
         android:layout_alignParentLeft="true"
         android:scaleType="fitCenter"
         android:layout_margin="12dp"
@@ -44,6 +54,8 @@
         android:text="UserName"
         android:id="@+id/tvUserName"
         android:layout_below="@+id/ivClose"
+        android:fontFamily="sans-serif-medium"
+        android:textStyle="bold"
         android:textColor="#000000"
         android:textSize="19sp"
         android:layout_toRightOf="@+id/ivProfileImage" />
@@ -56,19 +68,25 @@
         android:layout_below="@+id/tvUserName"
         android:textColor="#899AA7"
         android:textSize="16sp"
+        android:fontFamily="sans-serif-light"
         android:layout_toRightOf="@+id/ivProfileImage" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:text="Tweet body"
         android:id="@+id/tvTweetBody"
+        android:autoLink="all"
         android:linksClickable="true"
         android:textColorLink="#4184B7"
+        android:fontFamily="sans-serif-light"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="#2B3135"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/ivProfileImage"
-        android:layout_margin="12dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:textSize="20sp" />
 
     <TextView
@@ -78,8 +96,9 @@
         android:id="@+id/tvTimeStamp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/tvTweetBody"
+        android:fontFamily="sans-serif-light"
         android:textColor="#899AA7"
         android:layout_margin="12dp"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 
 </RelativeLayout>

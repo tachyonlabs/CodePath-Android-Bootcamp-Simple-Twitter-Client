@@ -87,7 +87,7 @@ public class TimelineActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.mipmap.logo);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
         //toolbar.setTitleTextAppearance(this, R.style.MyTextAppearance);
         client = TwitterApplication.getRestClient(); // singleton client
         populateTimeline();

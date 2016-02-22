@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context="com.tachyonlabs.tweety.fragments.ComposeFragment">
 
     <ImageView
@@ -25,6 +26,15 @@
         app:riv_corner_radius="2dip"
         app:riv_oval="false" />
 
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:minHeight="1px"
+        android:layout_below="@id/ivClose"
+        android:background="@color/twitter_blue"
+        />
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,20 +42,12 @@
         android:hint="@string/whats_happening"
         android:textColorHint="#C0C0C0"
         android:inputType="textMultiLine|textCapSentences"
-        android:layout_below="@+id/ivMyProfileImage"
+        android:layout_below="@+id/line1"
         android:layout_alignParentLeft="true"
         android:layout_above="@+id/btnTweet"
         android:gravity="top"
         android:paddingLeft="10dp"
         android:paddingRight="10dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tweet"
-        android:id="@+id/btnTweet"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -58,5 +60,13 @@
         android:layout_alignTop="@+id/btnTweet"
         android:layout_marginRight="10dp"
         android:gravity="center_vertical" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tweet"
+        android:id="@+id/btnTweet"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>
