@@ -53,19 +53,43 @@
         android:layout_height="wrap_content"
         android:text="140"
         android:id="@+id/tvCharsRemaining"
-        android:textColor="@color/darker_twitter_blue"
+        android:textColor="@color/twitter_blue"
         android:layout_alignBottom="@+id/btnTweet"
         android:layout_toLeftOf="@+id/btnTweet"
         android:layout_alignTop="@+id/btnTweet"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="8dp"
         android:gravity="center_vertical" />
+
+    <View
+        android:id="@+id/coverTheTealDividerICantGetRidOf"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_above="@id/btnTweet"
+        android:background="#FFFFFF" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:minHeight="1px"
+        android:layout_above="@id/btnTweet"
+        android:layout_marginBottom="8dp"
+        android:background="@color/twitter_blue" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tweet"
         android:id="@+id/btnTweet"
-        android:layout_alignParentBottom="true"
+        android:layout_marginRight="8dp"
+        android:layout_above="@+id/becauseTheDialogIgnoresBottomMarginOnTheButton"
         android:layout_alignParentRight="true" />
+
+    <View
+        android:id="@+id/becauseTheDialogIgnoresBottomMarginOnTheButton"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="8dp"
+        android:background="#FFFFFF" />
 
 </RelativeLayout>

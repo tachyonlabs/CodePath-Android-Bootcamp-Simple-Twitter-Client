@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 import com.tachyonlabs.tweety.R;
 import com.tachyonlabs.tweety.models.Tweet;
 
@@ -114,13 +112,8 @@ public class TweetsAdapter extends
         // populate the thumbnail image
         // remotely download, or use the placeholder if there is no thumbnail
         ImageView ivProfileImage = viewHolder.ivProfileImage;
-        Picasso.with(viewHolder.ivProfileImage.getContext()).load(tweet.getUser().getProfileImageUrl()).fit().centerCrop().transform(roundedCorners).into(ivProfileImage);
+        Picasso.with(viewHolder.ivProfileImage.getContext()).load(tweet.getUser().getProfileImageUrl()).fit().centerCrop().into(ivProfileImage);
     }
-
-    Transformation roundedCorners = new RoundedTransformationBuilder()
-            .cornerRadiusDp(4)
-            .oval(false)
-            .build();
 
     private String relativeDate(String createdAt) {
         // get an Instagram-style string of how long ago the tweet was tweeted

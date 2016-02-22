@@ -46,11 +46,11 @@ public class ComposeFragment extends android.support.v4.app.DialogFragment {
         Button btnTweet;
         ImageView ivClose;
         super.onViewCreated(view, savedInstanceState);
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         // Get fields from view
         etComposeTweet = (EditText) view.findViewById(R.id.etComposeTweet);
         ImageView ivMyProfileImage = (ImageView) view.findViewById(R.id.ivMyProfileImage);
         // Fetch arguments from bundle
-        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         profileImageUrl = getArguments().getString("profileImageUrl");
         Picasso.with(view.getContext()).load(profileImageUrl).fit().centerCrop().into(ivMyProfileImage);
 

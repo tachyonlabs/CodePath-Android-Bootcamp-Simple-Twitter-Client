@@ -17,10 +17,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:contentInsetStart="13dp"
-            android:contentInsetLeft="13dp"
-            app:contentInsetLeft="13dp"
-            app:contentInsetStart="13dp"
+            android:contentInsetStart="15dp"
+            android:contentInsetLeft="15dp"
+            app:contentInsetLeft="15dp"
+            app:contentInsetStart="15dp"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
