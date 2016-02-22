@@ -103,7 +103,7 @@ public class ComposeFragment extends android.support.v4.app.DialogFragment {
                 // update the charsRemaining TextView with how many of the 140 chars they have left
                 charsRemaining = 140 - s.length();
                 tvCharsRemaining.setText(String.valueOf(charsRemaining));
-                tvCharsRemaining.setTextColor(charsRemaining < 0? Color.RED : R.color.twitter_blue);
+                tvCharsRemaining.setTextColor(charsRemaining < 0? Color.RED : 0xFF55ACEE);
             }
         });
     }
