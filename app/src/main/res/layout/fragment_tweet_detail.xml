@@ -29,11 +29,10 @@
     <View
         android:id="@+id/line1"
         android:layout_width="match_parent"
-        android:layout_height="1px"
+        android:layout_height="1dp"
         android:minHeight="1px"
         android:layout_below="@id/ivClose"
-        android:background="@color/twitter_blue"
-        />
+        android:background="@color/twitter_blue" />
 
     <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -78,7 +77,7 @@
         android:id="@+id/tvTweetBody"
         android:autoLink="all"
         android:linksClickable="true"
-        android:textColorLink="#4184B7"
+        android:textColorLink="#1E97E0"
         android:fontFamily="sans-serif-light"
         android:lineSpacingMultiplier="1.1"
         android:textColor="#2B3135"
